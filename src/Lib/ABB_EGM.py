@@ -245,7 +245,6 @@ class Control(object):
         except socket.error as e:
             print(f'[ERROR] Error sending data: {e}')
 
-
 class Stream(object):
     """
     Description:

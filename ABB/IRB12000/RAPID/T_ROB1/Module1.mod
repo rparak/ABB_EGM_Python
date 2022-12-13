@@ -1,29 +1,4 @@
 MODULE Module1
-    ! ## =========================================================================== ## 
-    ! MIT License
-    ! Copyright (c) 2021 Roman Parak
-    ! Permission is hereby granted, free of charge, to any person obtaining a copy
-    ! of this software and associated documentation files (the "Software"), to deal
-    ! in the Software without restriction, including without limitation the rights
-    ! to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    ! copies of the Software, and to permit persons to whom the Software is
-    ! furnished to do so, subject to the following conditions:
-    ! The above copyright notice and this permission notice shall be included in all
-    ! copies or substantial portions of the Software.
-    ! THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    ! IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    ! FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    ! AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    ! LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    ! OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    ! SOFTWARE.
-    ! ## =========================================================================== ## 
-    ! Author   : Roman Parak
-    ! Email    : Roman.Parak@outlook.com
-    ! Github   : https://github.com/rparak
-    ! File Name: T_ROB1/Module1.mod
-    ! ## =========================================================================== ## 
-    
     ! Targets
     CONST robtarget Target_10:=[[450,0,750],[0.227989146,-0.565814373,0.774691577,0.166517282],[-1,1,-2,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     CONST robtarget Target_20:=[[450.673200019,2.107908887,740.247895004],[0.221935885,-0.567098394,0.775814982,0.165090848],[-1,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
@@ -187,17 +162,17 @@ MODULE Module1
     ! Initialization Parameters
     CONST num speed_tcp    := 100;
     CONST num speed_orient := 100;
-    VAR speeddata speed_value := [speed_tcp,speed_orient,0,0];
+    VAR speeddata speed_value := [speed_tcp, speed_orient, 0, 0];
     VAR zonedata zone_value   := z100;
-
+    
     ! Description:                                                  !
     ! Externally Guided motion (EGM): Stream / Control - Main Cycle !
     PROC Main()
         ! Move to the starting position
-        !MoveJ Target_10,speed_value,zone_value,tool0\WObj:=wobj0;
+        MoveJ Target_10, speed_value, zone_value, tool0\WObj:=wobj0;
             
         ! EGM Stream Data (Position, Orientation)
-        EGM_STREAM_DATA;
+        !EGM_STREAM_DATA;
         
         ! EGM Cartesian / Joint Control
         !EGM_CARTESIAN_CONTROL;
@@ -210,12 +185,18 @@ MODULE Module1
         
         TEST actual_state
             CASE 0:
+                ! Release the EGM id.
+                EGMReset egm_id;
+                
                 ! Register an EGM id
                 EGMGetId egm_id;
+                
                 ! Setup the EGM communication
                 EGMSetupUC ROB_1, egm_id, "default", "ROB_1";
+                
                 ! Start the EGM communication session
                 EGMStreamStart egm_id \SampleRate:=4;
+                
                 actual_state := 1; 
             CASE 1:   
                 ! Instructions for multiple movements
@@ -230,7 +211,7 @@ MODULE Module1
     PROC EGM_CARTESIAN_CONTROL()
         ! Description:                                       !
         ! Externally Guided motion (EGM) - Cartesian Control !
-    
+        
         ! Register an EGM id
         EGMGetId egm_id;
             
@@ -258,12 +239,10 @@ MODULE Module1
                        \MaxSpeedDeviation:=1000;
                         
             ! Start the EGM communication session
-            EGMRunPose egm_id, EGM_STOP_RAMP_DOWN, \X \Y \Z \Rx \Ry \Rz \CondTime:=0.1 \RampInTime:=0.1 \RampOutTime:=0.1 \PosCorrGain:=1.0;
+            EGMRunPose egm_id, EGM_STOP_HOLD, \X \Y \Z \Rx \Ry \Rz \CondTime:=0.1 \RampInTime:=0.1 \RampOutTime:=0.1 \PosCorrGain:=1.0;
             
-            ! Release the EGM id
-            !EGMReset egm_id;
             ! Wait 2 seconds {No data from EGM sensor}
-            !WaitTime 2;
+            WaitTime 2;
         ENDWHILE
         
         ERROR
@@ -276,7 +255,10 @@ MODULE Module1
     PROC EGM_JOINT_CONTROL()
         ! Description:                                   !
         ! Externally Guided motion (EGM) - Joint Control !
-        
+          
+        ! Release the EGM id.
+        EGMReset egm_id;
+            
         ! Register an EGM id.
         EGMGetId egm_id;
             
@@ -299,16 +281,15 @@ MODULE Module1
                         \MaxSpeedDeviation:=1000;
                         
             ! Start the EGM communication session.
-            EGMRunJoint egm_id, EGM_STOP_RAMP_DOWN, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=0.1 \RampInTime:=0.1 \RampOutTime:=0.1 \PosCorrGain:=1.0;
-
-            ! Release the EGM id.
-            !EGMReset egm_id;
+            EGMRunJoint egm_id, EGM_STOP_HOLD, \J1 \J2 \J3 \J4 \J5 \J6 \CondTime:=0.1 \RampInTime:=0.1 \RampOutTime:=0.1 \PosCorrGain:=1.0;
+             
             ! Wait 2 seconds {No data from EGM sensor}
-            !WaitTime 2;
+            WaitTime 2;
+            
         ENDWHILE
         
         ERROR
-        IF ERRNO = ERR_UDPUC_COMM THEN
+        IF ERRNO = ERR_UDPUC_COMM THEN  
             TPWrite "Communication timedout";
             TRYNEXT;
         ENDIF

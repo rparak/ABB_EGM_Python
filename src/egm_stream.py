@@ -115,6 +115,7 @@ def main():
             #   result_desired_abs_joint_v100_z100: speed 100 mm / s, zone 100 mm
             df.to_csv(f'EGM_Results\\{ROBOT_NAME}\\result_desired_abs_joint_v100_z100.txt', header=df_header_abs_joint, index=None, sep=',', mode='w')
             print('[INFO] File saved successfully!')
+        
         sys.exit(1)
 
 if __name__ == "__main__":
