@@ -140,10 +140,10 @@ class Control(object):
                     self.sd_time.append(robot_msg.header.tm)
                     #   TCP Position [mm]
                     self.sd_cartesian_position.append([robot_msg.feedBack.cartesian.pos.x, robot_msg.feedBack.cartesian.pos.y, 
-                                                    robot_msg.feedBack.cartesian.pos.z])
+                                                       robot_msg.feedBack.cartesian.pos.z])
                     #   Quaternion Orientation [-]
                     self.sd_cartesian_orientation.append([robot_msg.feedBack.cartesian.orient.u0, robot_msg.feedBack.cartesian.orient.u1,
-                                                        robot_msg.feedBack.cartesian.orient.u2, robot_msg.feedBack.cartesian.orient.u3])
+                                                          robot_msg.feedBack.cartesian.orient.u2, robot_msg.feedBack.cartesian.orient.u3])
 
                 # Send Data to the Robot
                 self.__Sensor_Message_Cartesian()
@@ -204,10 +204,16 @@ class Control(object):
         egm_planned.cartesian.pos.x = self.__cd_cartesian_position[0]
         egm_planned.cartesian.pos.y = self.__cd_cartesian_position[1]
         egm_planned.cartesian.pos.z = self.__cd_cartesian_position[2]
+        egm_planned.cartesian.euler.x = self.__cd_cartesian_orientation[0]
+        egm_planned.cartesian.euler.y = self.__cd_cartesian_orientation[1]
+        egm_planned.cartesian.euler.z = self.__cd_cartesian_orientation[2]
+
+        """
         egm_planned.cartesian.orient.u0 = self.__cd_cartesian_orientation[0]
         egm_planned.cartesian.orient.u1 = self.__cd_cartesian_orientation[1]
         egm_planned.cartesian.orient.u2 = self.__cd_cartesian_orientation[2]
         egm_planned.cartesian.orient.u3 = self.__cd_cartesian_orientation[3]
+        """
         
         # Sensor Message
         memory_stream = egm_s.SerializeToString()
