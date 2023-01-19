@@ -43,11 +43,11 @@ import Lib.ABB_EGM as ABB_EGM
 ROBOT_NAME = 'IRB1200'
 #   Save or don't save streamed values from the Robot 
 #       'Cartesian' / 'Joint' or 'None'
-SAVE_DATA = [False, 'Cartesian']
+SAVE_DATA = [True, 'Cartesian']
 
 def EGM_Control_Thread_Fce(EGM_Ctrl):
     sequence = 0
-    while sequence < 10:
+    while sequence < 100:
         """
         Description:
             Set data to the robot via EGM and write the data to a vector of values.
@@ -61,7 +61,8 @@ def EGM_Control_Thread_Fce(EGM_Ctrl):
                                     [data['Q1_Orientation'][sequence], data['Q2_Orientation'][sequence], 
                                      data['Q3_Orientation'][sequence], data['Q4_Orientation'][sequence]], SAVE_DATA[0])
         """
-        EGM_Ctrl.Set_Cartesian_Data([500.0, 0.0, 400.0], [180.0,0.0,180.0,0.0], SAVE_DATA[0])
+        EGM_Ctrl.Set_Cartesian_Data([500.0, 100.0, 400.0], [180.0,0.0,180.0,0.0], SAVE_DATA[0])
+        #EGM_Ctrl.Set_Absolute_Joint_Data([10.0,0.0,40.0,0.0,50.0,0.0], SAVE_DATA[0])
 
         sequence = sequence + 1
         print(sequence)

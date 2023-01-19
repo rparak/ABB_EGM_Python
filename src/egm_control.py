@@ -40,10 +40,10 @@ import Lib.ABB_EGM as ABB_EGM
 
 # Input Data:
 #   Robot Name: IRB1200 / CRB15000
-ROBOT_NAME = 'IRB1200'
+ROBOT_NAME = 'CRB15000'
 #   Save or don't save streamed values from the Robot 
 #       'Cartesian' / 'Joint' or 'None'
-SAVE_DATA = [True, 'Joint']
+SAVE_DATA = [False, 'Joint']
 
 def EGM_Control_Thread_Fce(EGM_Ctrl, data):
     sequence = 0
@@ -76,7 +76,7 @@ def main():
         egm_res_data_desired = pd.read_csv(current_directory_name + '\\EGM_Results\\' + FILE_NAME)
 
         # Initialization of the Class (ABB EGM Control)
-        ABB_EGM_Ctrl = ABB_EGM.Control('127.0.0.1', 6511)
+        ABB_EGM_Ctrl = ABB_EGM.Control('192.168.125.22', 6511)
 
         # Start Control {EGM}: Thread
         egm_thread = threading.Thread(target=EGM_Control_Thread_Fce, args=(ABB_EGM_Ctrl, egm_res_data_desired, ), daemon=True)

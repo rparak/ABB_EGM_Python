@@ -60,7 +60,7 @@ def EGM_Stream_Thread_Fce(EGM_Stream):
 def main():
     try:
         # Initialization of the Class (ABB EGM Stream)
-        ABB_EGM_Stream = ABB_EGM.Stream('127.0.0.1', 6511)
+        ABB_EGM_Stream = ABB_EGM.Stream('192.168.125.22', 6511)
 
         # Start Stream {EGM}: Thread
         egm_thread = threading.Thread(target=EGM_Stream_Thread_Fce, args=(ABB_EGM_Stream, ), daemon=True)
