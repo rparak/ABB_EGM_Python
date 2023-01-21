@@ -61,7 +61,7 @@ def EGM_Control_Thread_Fce(EGM_Ctrl):
                                     [data['Q1_Orientation'][sequence], data['Q2_Orientation'][sequence], 
                                      data['Q3_Orientation'][sequence], data['Q4_Orientation'][sequence]], SAVE_DATA[0])
         """
-        EGM_Ctrl.Set_Cartesian_Data([500.0, 100.0, 400.0], [180.0,0.0,180.0,0.0], SAVE_DATA[0])
+        EGM_Ctrl.Set_Cartesian_Data([500.0, 50.0, 400.0], [180.0,0.0,180.0,0.0], SAVE_DATA[0])
         #EGM_Ctrl.Set_Absolute_Joint_Data([10.0,0.0,40.0,0.0,50.0,0.0], SAVE_DATA[0])
 
         sequence = sequence + 1
@@ -72,7 +72,7 @@ def EGM_Control_Thread_Fce(EGM_Ctrl):
 def main():
     try:
         # Initialization of the Class (ABB EGM Control)
-        ABB_EGM_Ctrl = ABB_EGM.Control('127.0.0.1', 6511)
+        ABB_EGM_Ctrl = ABB_EGM.Control('192.168.125.22', 6511)
 
         # Start Control {EGM}: Thread
         egm_thread = threading.Thread(target=EGM_Control_Thread_Fce, args=(ABB_EGM_Ctrl, ), daemon=True)
