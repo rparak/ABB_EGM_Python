@@ -112,7 +112,7 @@ class Control(object):
         #   Joint [°]
         self.__cd_abs_joint_orientation = [0.0] * CONST_NUM_OF_JOINTS
 
-    def Set_Cartesian_Data(self, position = [0.0, 0.0, 0.0], orientation = [0.0, 0.0, 0.0, 0.0], collect_data = False):
+    def Set_Cartesian_Data(self, position = [0.0, 0.0, 0.0], orientation = [0.0, 0.0, 0.0], collect_data = False):
         """
         Description:
             Function to set the Cartesian data of the robot through the EGM and write the data to a vector of values 
@@ -146,7 +146,8 @@ class Control(object):
                     self.sd_cartesian_orientation.append([robot_msg.feedBack.cartesian.orient.u0, robot_msg.feedBack.cartesian.orient.u1,
                                                           robot_msg.feedBack.cartesian.orient.u2, robot_msg.feedBack.cartesian.orient.u3])
 
-                    print(robot_msg.feedBack.cartesian.pos.z)
+                    #print(robot_msg.feedBack.cartesian)
+                    #print(robot_msg.feedBack)
                 # Send Data to the Robot
                 self.__Sensor_Message_Cartesian()
         except socket.error as e:
@@ -180,6 +181,8 @@ class Control(object):
                     self.sd_time.append(robot_msg.header.tm)
                     #   Absolute Position of the Joints [°]
                     self.sd_abs_joint_orientation.append(robot_msg.feedBack.joints.joints)
+                    #print(robot_msg.feedBack.joints.joints)
+                    #print(robot_msg.feedBack.externalJoints)
 
                 # Send Data to the Robot
                 self.__Sensor_Message_Absolute_Joint()
@@ -210,7 +213,7 @@ class Control(object):
         egm_planned.cartesian.euler.y = self.__cd_cartesian_orientation[1]
         egm_planned.cartesian.euler.z = self.__cd_cartesian_orientation[2]
 
-        print(self.__cd_cartesian_position[2])
+        egm_planned.externalJoints.joints.extend([20.0, 0.0, 0.0, 0.0, 0.0])
 
         """
         egm_planned.cartesian.orient.u0 = self.__cd_cartesian_orientation[0]
@@ -244,8 +247,11 @@ class Control(object):
         # Bind planned to sensor object
         egm_planned = egm_s.planned
         # Set Data {Cartesian}
-        egm_planned.joints.joints.extend(self.__cd_abs_joint_orientation)
-        print(self.__cd_abs_joint_orientation)
+        #print(egm_planned.externalJoints.joints.extend)
+        egm_planned.joints.joints.extend(self.__cd_abs_joint_orientation[0:-1])
+        #print(self.__cd_abs_joint_orientation[0:-1])
+        #egm_planned.externalJoints.joints[0] = self.__cd_abs_joint_orientation[-1]
+        egm_planned.externalJoints.joints.extend([20.0, 0.0, 0.0, 0.0, 0.0])
 
         # Sensor Message
         memory_stream = egm_s.SerializeToString()

@@ -61,9 +61,10 @@ MODULE Module1
             ! Start the EGM communication session.
             EGMRunJoint egm_id, EGM_STOP_HOLD, \J1 \J2 \J3 \J4 \J5 \J6 \J7 \CondTime:=0.1 \RampInTime:=0.1 \RampOutTime:=0.1 \PosCorrGain:=1.0;
              
+            ! Release the EGM id
+            !EGMReset egm_id;
             ! Wait 2 seconds {No data from EGM sensor}
-            WaitTime 2;
-            
+            !WaitTime 2;
         ENDWHILE
         
         ERROR
