@@ -213,8 +213,6 @@ class Control(object):
         egm_planned.cartesian.euler.y = self.__cd_cartesian_orientation[1]
         egm_planned.cartesian.euler.z = self.__cd_cartesian_orientation[2]
 
-        egm_planned.externalJoints.joints.extend([20.0, 0.0, 0.0, 0.0, 0.0])
-
         """
         egm_planned.cartesian.orient.u0 = self.__cd_cartesian_orientation[0]
         egm_planned.cartesian.orient.u1 = self.__cd_cartesian_orientation[1]
