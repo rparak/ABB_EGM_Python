@@ -7,40 +7,46 @@ if '../../' + 'src' not in sys.path:
 import numpy as np
 # Time (Time access and conversions)
 import time
-# OS (Operating system interfaces)
-import os
 # Custom Lib.:
-#   ...
+#   ../Lib/EGM/Core
 import Lib.EGM.Core
 #   ../Lib/Transsformation/Utilities/Mathematics
 import Lib.Transformation.Utilities.Mathematics as Mathematics
 #   ../Lib/Trajectory/Utilities
 import Lib.Trajectory.Utilities
+#   ../Lib/Utilities/File_IO
+import Lib.Utilities.File_IO as File_IO
 
 """
 Description:
     Initialization of constants.
 """
+# EGM time step.
+CONST_DT = 0.004
 # Simulation stop(t_0), start(t_1) time in seconds.
 CONST_T_0 = 0.0
-CONST_T_1 = 2.0
+CONST_T_1 = 5.0
 
 def main():
     """
     Description:
-        ...
+        A program to test the control of an articulated robotic arm using EGM.
+
+        Note:
+            The selected robot is the ABB IRB 120, a six-axis articulated robot.
     """
     
-    # ...
+    # Initialization of the class.
+    #   Start UDP communication.
     ABB_IRB_120_EGM_Cls = Lib.EGM.Core.EGM_Control_Cls('127.0.0.1', 6511)
 
-    # Initialization of the class to generate trajectory.
-    Polynomial_Cls = Lib.Trajectory.Utilities.Polynomial_Profile_Cls(delta_time=0.004)
-    
-    # ....
+    # Set the actual and desired position of the robot's joints.
     theta_0 = Mathematics.Degree_To_Radian(np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0], dtype=np.float64))
     theta_1 = Mathematics.Degree_To_Radian(np.array([50.0, -30.0, 30.0, -40.0, 60.0, -80.0], dtype=np.float64))
 
+    # Initialization of the class to generate trajectory.
+    Polynomial_Cls = Lib.Trajectory.Utilities.Polynomial_Profile_Cls(delta_time=CONST_DT)
+    
     # Generation of multi-axis position trajectories from input parameters.
     theta_arr = []
     for _, (th_actual, th_desired) in enumerate(zip(theta_0, theta_1)):
@@ -48,18 +54,20 @@ def main():
                                                       CONST_T_0, CONST_T_1)
         theta_arr.append(theta_arr_i)
 
-    # ...
+    # Move from the starting position to the desired position.
+    #   theta_0 -> theta_1
     for _, theta_arr_i in enumerate(np.array(theta_arr, dtype=np.float64).T):
         ABB_IRB_120_EGM_Cls.Set_Absolute_Joint_Position(theta_arr_i, False)
 
-    # ...
-    time.sleep(1.0)
+    # Wait the required time.
+    time.sleep(0.2)
 
-    # ...
+    # Move back from the desired position to the starting position.
+    #   theta_0 <- theta_1
     for _, theta_arr_i in enumerate(np.array(theta_arr, dtype=np.float64).T[::-1]):
         ABB_IRB_120_EGM_Cls.Set_Absolute_Joint_Position(theta_arr_i, False)
-    
-    # ...
+        
+    # Close UDP communication.
     ABB_IRB_120_EGM_Cls.Close()
     
 if __name__ == '__main__':
