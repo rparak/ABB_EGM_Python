@@ -1,3 +1,3 @@
-# ABB_EGM_Python
+# An Open-Source Python Library to Control ABB Robot via EGM
 
-Finish this week!
+....
