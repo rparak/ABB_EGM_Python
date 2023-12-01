@@ -58,7 +58,7 @@ def main():
         ABB_IRB_120_EGM_Cls.Set_Absolute_Joint_Position(theta_arr_i, False)
 
     # Wait the required time.
-    time.sleep(0.2)
+    time.sleep(0.5)
 
     # Move back from the desired position to the starting position.
     #   theta_0 <- theta_1

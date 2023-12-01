@@ -1,1 +1,0 @@
-https://github.com/kth-ros-pkg/abb_irb14000_core
