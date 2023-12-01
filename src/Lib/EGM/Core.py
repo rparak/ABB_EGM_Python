@@ -12,6 +12,8 @@ import typing as tp
 # Custom Lib.: 
 #   ../Lib/Transformation/Core
 from Lib.Transformation.Core import Homogeneous_Transformation_Matrix_Cls as HTM_Cls
+#   ../Lib/Transsformation/Utilities/Mathematics
+import Lib.Transformation.Utilities.Mathematics as Mathematics
 
 """
 Description: 
@@ -83,7 +85,7 @@ class EGM_Control_Cls(object):
                                                     Where n is the number of joints.
         """
                 
-        return self.__theta
+        return Mathematics.Degree_To_Radian(self.__theta)
 
     @property
     def T_EE(self) -> tp.List[tp.List[float]]:
@@ -97,7 +99,12 @@ class EGM_Control_Cls(object):
                 
         return self.__T_EE
     
-    def Close(self):
+    def Close(self) -> None:
+        """
+        Description:
+            ...
+        """
+
         self.__udp_client.close()
 
     def __Send_Sensor_Message(self, theta: tp.List[float], enable_external_joint: bool, end_point: tp.Tuple[str, int]) -> None:
@@ -117,7 +124,8 @@ class EGM_Control_Cls(object):
             # Binding the planned data in the form of absolute robot joints to the sensor object.
             egm_planned = sensor_message.planned
             if enable_external_joint == True:
-                pass
+                egm_planned.joints.joints.extend(theta[0:-1])
+                egm_planned.externalJoints.joints.extend([theta[-1]])
             else:
                 egm_planned.joints.joints.extend(theta)
  
@@ -169,12 +177,13 @@ class EGM_Control_Cls(object):
 
                 # Express the absolute positions of the robot's joints.
                 if enable_external_joint == True:
-                    pass
+                    self.__theta = np.append(np.array(self.__sensor_message_r.feedBack.joints.joints, dtype=np.float64),
+                                             np.array(self.__sensor_message_r.feedBack.externalJoints.joints, dtype=np.float64))
                 else:
                     self.__theta = np.array(self.__sensor_message_r.feedBack.joints.joints, dtype=np.float64)
 
                 # ...
-                self.__Send_Sensor_Message(theta, enable_external_joint, end_point)
+                self.__Send_Sensor_Message(Mathematics.Radian_To_Degree(theta), enable_external_joint, end_point)
 
         except socket.error as e:
             print(f'[ERROR] Information: {e}')
