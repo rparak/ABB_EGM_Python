@@ -55,8 +55,8 @@ Both ports are only used when the YuMi robot is selected, as each arm can be con
 **WARNING: To control the robot in the real world, it is necessary to disable the firewall.**
 
 <p align="center">
-  <img src=https://github.com/rparak/ABB_EGM_Python/blob/main/images/ABB_IRB_120_Env.png width="800" height="275">
-  <img src=https://github.com/rparak/ABB_EGM_Python/blob/main/images/ABB_IRB_14000_Env.png width="800" height="275">
+  <img src=https://github.com/rparak/ABB_EGM_Python/blob/main/images/ABB_IRB_120_Env.png width="275" height="600">
+  <img src=https://github.com/rparak/ABB_EGM_Python/blob/main/images/ABB_IRB_14000_Env.png width="275" height="600">
 </p>
 
 **Notes:**
