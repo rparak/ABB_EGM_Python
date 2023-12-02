@@ -70,6 +70,8 @@ Description:
 
 ## Data Evaluation
 
+The results of the analysis show the difference between the actual and desired positions of the robot's joints for each tested robotic arm.
+
 **ABB IRB 120**
 
 <p align="center">
