@@ -50,6 +50,8 @@ The project was realized at the Institute of Automation and Computer Science, Br
 | UDPUC | 6511  |
 | UDPUC | 6512  |
 
+Both ports are only used when the YuMi robot is selected, as each arm can be controlled separately.
+
 **WARNING: To control the robot in the real world, it is necessary to disable the firewall.**
 
 **Notes:**
