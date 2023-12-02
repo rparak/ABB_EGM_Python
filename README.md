@@ -33,6 +33,10 @@ Windows
 
 ## Project Description
 
+An open-source Python library designed for controlling an articulated robotic arm from ABB through Externally Guided Motion (EGM). Two types of robots from ABB were chosen for testing, namely the industrial robotic arm IRB 120 and the collaborative robotic arm IRB 14000 (YuMi). The goal was to analyze the difference between the actual and desired positions of the robot's joints generated using polynomial multi-axis position trajectories.
+
+The project also includes the collection of data using the EGM, as well as the analysis of the data.
+
 **IP Address Settings:**
 
 |          | ABB RobotStudio  | PC |
@@ -97,7 +101,7 @@ Description:
 
 ## Data Evaluation
 
-The results of the analysis show the difference between the actual and desired positions of the robot's joints for each tested robotic arm.
+The results of the analysis show the difference between the actual and desired positions of the robot's joints for each tested robotic arm. 
 
 **ABB IRB 120**
 
