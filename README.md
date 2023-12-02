@@ -29,6 +29,17 @@ Windows
 
 ## Project Description
 
+**IP Address Settings:**
+
+|          | ABB RobotStudio  | PC |
+| :------: | :-----------: | :-----------: |
+| Simulation Control  | 127.0.0.1 | 127.0.0.1 |
+
+|          | PORT |
+| :------: | :-----------: |
+| UDPUC | 6511  |
+| UDPUC | 6512  |
+
 **WARNING: To control the robot in the real world, it is necessary to disable the firewall.**
 
 **Notes:**
