@@ -37,6 +37,8 @@ An open-source Python library designed for controlling an articulated robotic ar
 
 The project also includes the collection of data using the EGM, as well as the analysis of the data.
 
+The project was realized at the Institute of Automation and Computer Science, Brno University of Technology, Faculty of Mechanical Engineering (NETME Centre - Cybernetics and Robotics Division).
+
 **IP Address Settings:**
 
 |          | ABB RobotStudio  | PC |
