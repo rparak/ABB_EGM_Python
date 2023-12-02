@@ -27,6 +27,22 @@ Windows
 | --------------------- | ------------------------------------------------------------------------------------- |
 | ABB RobotStudio       | https://new.abb.com/products/robotics/robotstudio/downloads                           |
 
+## Project Description:
+
+Text ....
+
+## Project Hierarchy:
+
+```bash
+[/ABB_RS/]
+Description:
+  The main ABB RobotStudio project for robot control via EGM. 
+  
+[/PROTO/]
+Description:
+  The egm.proto -file.
+```
+
 ## Contact Info
 Roman.Parak@outlook.com
 
