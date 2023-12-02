@@ -1,5 +1,9 @@
 # An Open-Source Python Library to Control ABB Robot Arm via EGM
 
+<p align="center">
+<img src=https://github.com/rparak/ABB_EGM_Python/blob/main/images/EGM.png width="800" height="450">
+</p>
+
 ## Requirements
 
 **Software:**
